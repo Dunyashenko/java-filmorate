@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
@@ -24,7 +23,7 @@ class FilmValidationServiceImplTest {
         film.setName("Movie name");
         film.setDescription("Description of movie");
         film.setReleaseDate(LocalDate.of(2025, 3, 14));
-        film.setDuration(Duration.ofMinutes(90));
+        film.setDuration(90);
 
         Validate filmValidator = new FilmValidationServiceImpl();
         assertDoesNotThrow(() -> filmValidator.checkRules(film));
@@ -36,7 +35,7 @@ class FilmValidationServiceImplTest {
             String name,
             String description,
             LocalDate date,
-            Duration duration,
+            Integer duration,
             Class clazz,
             String exceptionMessage
     ) {
@@ -62,7 +61,7 @@ class FilmValidationServiceImplTest {
                 Arguments.of(" ",
                         "Film description",
                         LocalDate.of(2023, 12, 3),
-                        Duration.ofMinutes(90),
+                        90,
                         ConditionNotMetException.class,
                         "Film name should be defined"
                 ),
@@ -70,7 +69,7 @@ class FilmValidationServiceImplTest {
                         "Name",
                         "a".repeat(201),
                         LocalDate.of(2023, 12, 3),
-                        Duration.ofMinutes(90),
+                        90,
                         ConditionNotMetException.class,
                         "Length of film description should be 200 chars or less"
                 ),
@@ -78,7 +77,7 @@ class FilmValidationServiceImplTest {
                         "Name",
                         "Film description",
                         LocalDate.of(1895, 12, 27),
-                        Duration.ofMinutes(90),
+                        90,
                         ConditionNotMetException.class,
                         "Film release should be after than 1895-12-28"
                 ),
@@ -86,7 +85,7 @@ class FilmValidationServiceImplTest {
                         "Name",
                         "Film description",
                         LocalDate.of(1985, 12, 29),
-                        Duration.ofMinutes(-90),
+                        -90,
                         ConditionNotMetException.class,
                         "Film duration should be a positive number"
                 )

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 public class FilmValidationServiceImpl implements Validate {
@@ -43,8 +42,8 @@ public class FilmValidationServiceImpl implements Validate {
         }
     }
 
-    public static void checkDurationCondition(Duration duration) {
-        if (duration.isNegative()) {
+    public static void checkDurationCondition(Integer duration) {
+        if (duration < 0) {
             log.error("Duration field has a negative value and equals " + duration);
             throw new ConditionNotMetException("Film duration should be a positive number");
         }
