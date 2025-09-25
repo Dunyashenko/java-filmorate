@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -14,11 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
 
     private final Map<Integer, Film> films = new HashMap<>();
     private final Validate filmValidator = new FilmValidationServiceImpl();
-    private static final Logger log = LoggerFactory.getLogger(InMemoryFilmStorage.class);
+    private int currentMaxId = 0;
 
     @Override
     public Collection<Film> findAll() {
@@ -95,11 +95,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     private int getNextId() {
-        int currentId = films.keySet()
-                .stream()
-                .mapToInt(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentId;
+        return ++currentMaxId;
     }
 }

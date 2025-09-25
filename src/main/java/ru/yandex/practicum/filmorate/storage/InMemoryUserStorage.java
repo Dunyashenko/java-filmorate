@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.exceptions.DuplicatedDataException;
@@ -15,11 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Integer, User> users = new HashMap<>();
     private final Validate userValidator = new UserValidationServiceImpl();
-    private static final Logger log = LoggerFactory.getLogger(InMemoryUserStorage.class);
+    private int currentMaxId = 0;
 
     @Override
     public Collection<User> findAll() {
@@ -101,11 +101,6 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     private int getNextId() {
-        int currentId = users.keySet()
-                .stream()
-                .mapToInt(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentId;
+        return ++currentMaxId;
     }
 }
