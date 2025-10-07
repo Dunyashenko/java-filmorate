@@ -1,15 +1,13 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
 
+@Slf4j
 public class FilmValidationServiceImpl implements Validate {
-
-    private static final Logger log = LoggerFactory.getLogger(FilmValidationServiceImpl.class);
 
     @Override
     public void checkRules(Object o) {
