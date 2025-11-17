@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exceptions.ConditionNotMetException;
 import ru.yandex.practicum.filmorate.exceptions.DuplicatedDataException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.UnsupportedDataException;
 import ru.yandex.practicum.filmorate.exceptions.model.ErrorResponse;
 
 @RestControllerAdvice(basePackages = "ru.yandex.practicum.filmorate.controller")
 public class ErrorHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler({ConditionNotMetException.class, UnsupportedDataException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleConditionNotMet(final ConditionNotMetException e) {
+    public ErrorResponse handleConditionNotMet(final RuntimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 
